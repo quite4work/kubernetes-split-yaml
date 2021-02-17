@@ -13,6 +13,7 @@ import (
 
 	"github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v2"
+	"github.com/Masterminds/sprig"
 )
 
 var log = logrus.New()
@@ -165,7 +166,7 @@ func outFile(outdir string, t *template.Template, filters *Filters, m *Kubernete
 
 func handleFile(file, outdir, outfileTemplate string, filters *Filters) {
 
-	tpl, err := template.New("outfile").Parse(outfileTemplate)
+	tpl, err := template.New("outfile").Funcs(sprig.TxtFuncMap()).Parse(outfileTemplate)
 	if err != nil {
 		log.Fatalf("Failed create template from '%s'", outfileTemplate)
 	}
